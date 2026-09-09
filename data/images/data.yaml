@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 14
+names: ['Central Warning lamp', 'Doors', 'Electronic Power Steering', 'Electronic Power Steering Warning', 'Engine cooling system', 'FrontFogLight', 'High Engine Coolant Temperature', 'LaneCenteringOff', 'Low beam', 'Low fuel level', 'Seat Belt', 'SideLamp', 'Washer Fluid', 'security']
+
+roboflow:
+  workspace: teamdata
+  project: car-dashboard-sndt9
+  version: 3
+  license: Public Domain
+  url: https://universe.roboflow.com/teamdata/car-dashboard-sndt9/dataset/3

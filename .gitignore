@@ -1,0 +1,19 @@
+# Virtual Environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Environment & Secrets
+.env
+
+# Vector Database & Heavy Models
+backend/data/vector_store/
+*.pt
+*.onnx
+*.bin
+
+# Datasets (if too large for GitHub)
+data/manuals/
+data/dashboard_dataset/
+runs/

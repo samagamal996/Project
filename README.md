@@ -51,6 +51,7 @@ This project solves that by delivering an end-to-end multimodal pipeline:
                                │ Ollama (Llama 3)   │
                                │  Grounded Response │
                                └────────────────────┘
+```
 
 **Tech Stack:**
 - **Computer Vision:** YOLOv8 (Ultralytics) fine-tuned on custom dashboard datasets.
@@ -61,6 +62,7 @@ This project solves that by delivering an end-to-end multimodal pipeline:
 - **Language & Runtime:** Python 3.10+.
 
 **Project Structure:**
+```text
 ├── backend/
 │ ├── app/
 │ │ ├── api/ # Route handlers (/health, /analyze, /query)
@@ -83,11 +85,9 @@ This project solves that by delivering an end-to-end multimodal pipeline:
 │ └── vector_store/ # Persisted ChromaDB vector database
 ├── README.md
 └── .gitignore
-
-
+```
 
 **Environment & Setup Instructions:**
-
 **Prerequisites:**
 - Python 3.10+
 - Ollama installed and running locally (`ollama pull llama3`)

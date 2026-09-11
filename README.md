@@ -141,7 +141,6 @@ Application Screenshots:
 <img width="1919" height="972" alt="image" src="https://github.com/user-attachments/assets/c3729d68-5ed3-48d4-9aaf-9d9d0ad7e697" />
 <img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/3582d0b3-944e-469e-8ff2-a8055ee645b6" />
 
-Demo Link:
 
 
 

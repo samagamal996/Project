@@ -50,7 +50,7 @@ else:
 
 
 # --- CORE LOGIC FUNCTIONS ---
-def retrieve_context(query: str, top_k: int = 3):
+def retrieve_context(query: str, top_k: int = 5):
     results = collection.query(query_texts=[query], n_results=top_k)
     retrieved_texts = results["documents"][0]
     retrieved_metas = results["metadatas"][0]
@@ -74,13 +74,18 @@ def detect_symbols_from_bytes(
     try:
         results = yolo_model(temp_img_path, conf=conf_threshold)
         detected_classes = []
-        for box in results[0].boxes:
-            cls_id = int(box.cls)
-            detected_classes.append(yolo_model.names[cls_id])
-        return list(set(detected_classes))
-    finally:
-        if os.path.exists(temp_img_path):
-            os.remove(temp_img_path)
+
+        # Safely check if YOLO returned valid predictions
+        if results and len(results) > 0 and hasattr(results[0], "boxes"):
+            for box in results[0].boxes:
+                cls_id = int(box.cls)
+                class_name = yolo_model.names[cls_id]
+                detected_classes.append(class_name)
+
+        return detected_classes
+    except Exception as e:
+        print(f"Vision processing error: {e}")
+        return []
 
 
 # --- DATA MODELS ---
@@ -123,34 +128,36 @@ async def analyze_dashboard(
     ),
     file: Optional[UploadFile] = File(None),
 ):
+# 1. Vision Detection (if image uploaded)
     detected_symbols = []
-
-    # 1. Vision Detection (if image uploaded)
     if file:
         contents = await file.read()
         detected_symbols = detect_symbols_from_bytes(contents)
 
     active_symbol = detected_symbols[0] if detected_symbols else None
 
-    # 2. Build Query with Context
+    # 2. Dynamic Query Routing (Option A Fix)
     if active_symbol:
+        # If YOLO found a symbol, boost the query with the detected vision class
         query_with_vision = (
             f"[Warning Light Detected: {active_symbol}] {user_query}"
         )
     else:
+        # If no symbol detected (unlearned icon or clear dashboard), rely purely on user text
         query_with_vision = user_query
 
     # 3. Vector DB Retrieval
     context, sources = retrieve_context(query_with_vision, top_k=3)
 
     # 4. LLM Generation via Ollama
-    prompt = f"""You are a helpful car owner assistant. Answer the question using ONLY the provided car manual context below. 
-If the information is not in the context, say "I cannot find this in the owner manual." Always cite the manual page numbers provided.
+    prompt = f"""You are a helpful car owner assistant. Answer the user's question about their car warning light.
+Use the provided owner's manual context below. If the provided context mentions relevant steps or warning details, cite the manual source pages. 
+If the exact information is missing from the context, provide helpful general automotive safety advice.
 
-Context:
+Context from Manual:
 {context}
 
-User Question: {query_with_vision}
+User Question / Details: {query_with_vision}
 
 Answer:"""
 

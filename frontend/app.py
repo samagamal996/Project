@@ -3,7 +3,15 @@ import streamlit as st
 from PIL import Image
 
 # API Endpoint Configuration
-API_URL = "http://127.0.0.1:8000/api/v1/analyze"
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Read from env variable with a local fallback
+API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
+API_URL = f"{API_BASE_URL}/api/v1/analyze"
+
 
 st.set_page_config(
     page_title="Tell-Tale Dashboard Assistant",
@@ -56,12 +64,13 @@ with col1:
     user_query = st.text_input(
         "Question about the warning light:",
         value="What action should I take right now for this warning light?",
+        help="Tip: If the symbol isn't detected automatically, mention the color or icon shape (e.g., 'red battery light').",
     )
 
     submit_button = st.button("Analyze Dashboard", type="primary")
 
 with col2:
-    st.subheader("💡 Analysis & Manual Instructions")
+    st.subheader("Analysis & Manual Instructions")
 
     if submit_button:
         if server_status == "Disconnected ❌":

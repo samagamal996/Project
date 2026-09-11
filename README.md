@@ -6,9 +6,7 @@ An AI-powered automotive assistant combining Computer Vision (**YOLOv8**) and Re
 
 ## 📽️ Demo & Video Walkthrough
 
-> 🎬 **[Click Here to Watch the Full Video Walkthrough & Live Demo]([YOUR_VIDEO_LINK_HERE](https://drive.google.com/file/d/15A_XE2R3b5UbCcdKXbk1TZxLACZxxqSu/view?usp=sharing))**
-
-*(Optionally embed a GIF or screenshot of the running app here)*
+> > 🎬 **[Click Here to Watch the Full Video Walkthrough & Live Demo](https://drive.google.com/file/d/15A_XE2R3b5UbCcdKXbk1TZxLACZxxqSu/view?usp=sharing)**
 
 ---
 
